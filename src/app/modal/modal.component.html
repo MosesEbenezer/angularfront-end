@@ -1,11 +1,159 @@
-<h1 mat-dialog-title>registered users to be listed here</h1>
-<div mat-dialog-content>
-  <p>Not populated yet because of time?</p>
-  <mat-form-field>
-    <input matInput [(ngModel)]="data.email">
-  </mat-form-field>
+<div *ngIf="showTable">
+  <h2 mat-dialog-title>Registered Users</h2>
+  <div mat-dialog-content>
+    <mat-table class="lessons-table" *ngFor="let user of users; let i = index">
+      <ng-container matColumnDef="seqNo">
+        <mat-header-cell *matHeaderCellDef>{{ i + 1 }}</mat-header-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="FirstName">
+        <mat-header-cell *matHeaderCellDef>{{
+          user.first_name
+        }}</mat-header-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="LastName">
+        <mat-header-cell *matHeaderCellDef>{{
+          user.last_name
+        }}</mat-header-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Email">
+        <mat-header-cell *matHeaderCellDef>{{
+          user.user_name
+        }}</mat-header-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Phone">
+        <mat-header-cell *matHeaderCellDef>{{
+          user.phone
+        }}</mat-header-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="view">
+        <mat-header-cell *matHeaderCellDef
+          ><button color="primary" mat-stroked-button (click)="showDetails(user.email)">Edit/View</button></mat-header-cell
+        >
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef
+          ><button color="secondary" mat-stroked-button (click)="deleteUser(user._id)">Delete</button></mat-header-cell
+        >
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </div>
 </div>
+<div *ngIf="showEdit">
+  <h2 mat-dialog-title>{{first_name + ' ' + last_name}}</h2>
+  <form class="example-form">
+    <mat-card-content>
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          name="first_name"
+          [(ngModel)]="first_name"
+          placeholder="First Name"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          name="last_name"
+          [(ngModel)]="last_name"
+          placeholder="Last Name"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          name="user_name"
+          [(ngModel)]="user_name"
+          placeholder="User Name"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput name="email" [(ngModel)]="email" placeholder="Email" />
+      </mat-form-field>
+
+      <!-- <mat-form-field class="example-full-width">
+        <input
+          matInput
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Password"
+        />
+      </mat-form-field> -->
+
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          name="phone"
+          [(ngModel)]="phone"
+          placeholder="Phone Number"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          name="street"
+          [(ngModel)]="street"
+          placeholder="Street Address"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput name="town" [(ngModel)]="town" placeholder="Town" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput name="state" [(ngModel)]="state" placeholder="State" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput name="lga" [(ngModel)]="lga" placeholder="LGA" />
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input
+          matInput
+          name="country"
+          [(ngModel)]="country"
+          placeholder="Country"
+        />
+      </mat-form-field>
+    </mat-card-content>
+
+    <div class="buton-display">
+      <button
+        mat-stroked-button
+        color="secondary"
+        (click)="back()"
+        class="btn-block"
+      >
+        Back
+      </button>
+
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="updateUser(_id)"
+        class="btn-block"
+      >
+        Update User
+      </button>
+    </div>
+  </form>
+</div>
+<hr />
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Okay</button>
-  <button mat-button [mat-dialog-close]="data.email" cdkFocusInitial>Okay</button>
+  <button mat-stroked-button color="secondary" (click)="onNoClick()">Close</button>
 </div>

@@ -1,5 +1,18 @@
 <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
   <mat-card class="box">
+
+    <button
+        mat-stroked-button
+        color="primary"
+        (click)="openDialog()"
+        class="btn-block"
+      >
+      View Saved Users</button>
+
+      <br/>
+      <br/>
+      <br/>
+
     <mat-card-header>
       <mat-card-title>Register</mat-card-title>
     </mat-card-header>
@@ -98,25 +111,13 @@
 
       <button
         mat-stroked-button
-        color="accent"
+        color="secondary"
         (click)="requestSignup()"
-        btnDisabled
+        disabled={{btnDisabled}}
         class="btn-block"
       >
         Register
       </button>
     </form>
-
-    <br/>
-    <br/>
-    <div>
-      <button mat-raised-button (click)="openDialog()">View Saved Users</button>
-
-      <br />
-      <div *ngIf="email">
-        All registered users will be listed here .. not added yet cos of time
-        <p></p>
-      </div>
-    </div>
   </mat-card>
 </div>

@@ -42,45 +42,29 @@ export class DataService {
     this.message = message;
   }
 
-  async getBusinessProfile() {
-    try {
-      if (localStorage.getItem('token')) {
-        const data = await this.rest.get(
-          environment.apiUrl+'/main/branch_businesses'
-        );
-        this.business = data['business'];
-      }
-    } catch (error) {
-      this.error(error);
-    }
-  }
+  private GET_USERS = environment.apiUrl+"all_users";
 
-  private GET_BRANCHES = environment.apiUrl+"/main/branch_business"; // added to get branches belonging to a head business
-  private GET_BUSINESS_ADMINS = environment.apiUrl+"/accounts/b/other_admin"; // added to get branches belonging to a head business
+  private GET_ONE_USER = environment.apiUrl+"find_user";
 
-  //get all pos under a specific branch
-  private GET_POS = environment.apiUrl+"/main/pos"
-  private GET_POS_USERS = environment.apiUrl+"/accounts/pos_user"
+  // private UPDATE_USER = environment.apiUrl+"update_user";
 
-  public getBranches() {
-    // return this.httpClient.get(this.GET_BRANCHES); // this get data from a route with no "CheckJWT"
-    return this.rest.get(this.GET_BRANCHES); //this gets the token from the header and attaches it in the get request.
-                                            //Hence the system knows who logged in and fetches data based on that.
-  }
-
-  public getPOS() {
-    // return this.httpClient.get(this.GET_BRANCHES); // this get data from a route with no "CheckJWT"
-    return this.rest.get(this.GET_POS); //this gets the token from the header and attaches it in the get request.
-                                            //Hence the system knows who logged in and fetches data based on that.
-  }
+  private DELETE_USER = environment.apiUrl+"delete_user"
 
   //get admins that belong to a head business
-  public getAdmins() {
-    return this.rest.get(this.GET_BUSINESS_ADMINS);
+  public getUsers() {
+    return this.rest.get(this.GET_USERS);
   }
 
-  public getPOSUSers() {
-    return this.rest.get(this.GET_POS_USERS);
+  public getOneUser(email) {
+    return this.rest.get(this.GET_ONE_USER+`/${email}`)
+  }
+
+  // public upDateUserData(_id) {
+  //   return this.rest.patch(this.UPDATE_USER+`/${_id}`)
+  // }
+
+  public deleteAUser(_id) {
+    return this.rest.delete(this.DELETE_USER+`/${_id}`)
   }
 
 

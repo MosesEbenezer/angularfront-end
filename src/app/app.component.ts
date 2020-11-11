@@ -35,24 +35,19 @@ export class AppComponent {
   lga = ''
   country = ''
 
-  constructor(private data: DataService, private rest: RestApiService, public dialog: MatDialog) { }
+  users = []
+
+  constructor(private dataService: DataService, private rest: RestApiService, public dialog: MatDialog) { }
 
   ngOnInit() {}
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      width: '300px',
-      data: {}
-    });
+    this.dialog.open(ModalComponent, {
+      height: '450px',
+      width: '700px',
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.email = result;
     });
   }
-
-  showRequest: Boolean = true;
-  showSuccess: Boolean = false;
-  trigger;
 
   validate() {
     if(this.first_name) {
@@ -68,86 +63,86 @@ export class AppComponent {
                         if(this.country) {
                           return true
                         } else {
-                          this.data.error('country is required')
+                          this.dataService.error('country is required')
                         }
                       } else {
-                        this.data.error('LGA is required')
+                        this.dataService.error('LGA is required')
                       }
                     } else {
-                      this.data.error('state is required')
+                      this.dataService.error('state is required')
                     }
                   } else {
-                    this.data.error('town is required')
+                    this.dataService.error('town is required')
                   }
                 } else {
-                  this.data.error('street is required')
+                  this.dataService.error('street is required')
                 }
               } else {
-                this.data.error('password is required')
+                this.dataService.error('password is required')
               }
             } else {
-              this.data.error('phone is required')
+              this.dataService.error('phone is required')
             }
           } else {
-            this.data.error('email is required')
+            this.dataService.error('email is required')
           }
         } else {
-          this.data.error('username is required')
+          this.dataService.error('username is required')
         }
       } else {
-        this.data.error('last name is required')
+        this.dataService.error('last name is required')
       }
     } else {
-      this.data.error('first name is required')
+      this.dataService.error('first name is required')
     }
   }
 
   async requestSignup() {
-    this.btnDisabled = true;
+    this.btnDisabled = false;
     try {
       if(this.validate()) {
         const data = await this.rest.post(
           environment.apiUrl+'register',
           {
             first_name: this.first_name,
-            last_name: this.  last_name,
-            user_name: this.  user_name,
-            email: this.  email,
-            phone: this.  phone,
-            password: this.  password,
-            street: this.  street,
-            town: this.  town,
-            state: this.  state,
-            lga: this.  lga,
-            country: this.  country,
+            last_name: this.last_name,
+            user_name: this.user_name,
+            email: this.email,
+            phone: this.phone,
+            password: this.password,
+            street: this.street,
+            town: this.town,
+            state: this.state,
+            lga: this.lga,
+            country: this.country,
           }
         );
         if (data['success']) {
           alert('User Saved successfully')
-          this.data.success(' Request For Registration Successful');
-          this.showRequest = false;
-          this.showSuccess = true;
-          this.trigger.drawn;
+          this.dataService.success(' Request For Registration Successful');
 
-          this.first_name = '',
-          this.last_name = '',
-          this.user_name = '',
-          this.email = '',
-          this.phone = '',
-          this.password = '',
-          this.street = '',
-          this.town = '',
-          this.state = '',
-          this.lga = '',
+          this.first_name = ''
+          this.last_name = ''
+          this.user_name = ''
+          this.email = ''
+          this.phone = ''
+          this.password = ''
+          this.street = ''
+          this.town = ''
+          this.state = ''
+          this.lga = ''
           this.country = ''
+
+          this.openDialog()
+
         } else {
-          this.data.error(data['message']);
+          this.dataService.error(data['message']);
         }
       }
     } catch (error) {
-      this.data.error(error['message'])
+      this.dataService.error(error['message'])
     }
-    this.btnDisabled = false;
+    // this.btnDisabled = true;
   }
 }
 
